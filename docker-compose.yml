@@ -1,0 +1,21 @@
+version: '2'
+services:
+  jenkins-master:
+    build: ./jenkins-master
+    depends_on:
+      - jenkins-data
+    volumes_from:
+      - jenkins-data
+    ports:
+      - 8080:8080
+      - 50000:50000
+  jenkins-data:
+    build: ./jenkins-data
+  nginx:
+    build: ./nginx
+    ports:
+      - 80:80
+    links:
+      - jenkins-master
+    depends_on:
+      - jenkins-master
